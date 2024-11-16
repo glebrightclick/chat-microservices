@@ -1,0 +1,17 @@
+# air.toml
+
+# Root directory to watch
+root = "."
+
+# List of directories or files to watch for changes
+[watcher]
+  includes = ["**/*.go", "**/*.tmpl", "**/*.html"]
+  excludes = ["vendor"]
+
+# Command to build the application
+[build]
+  cmd = "go build -o /tmp/main ."
+
+# Command to run the built application
+[run]
+  cmd = "/tmp/main"

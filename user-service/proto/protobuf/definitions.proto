@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package protobuf;
+option go_package = "proto/";
+
+service UserService {
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse);
+}
+
+message RegisterRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message RegisterResponse {
+  int32 userId = 1;
+  string message = 2;
+}
+
+message LoginRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  int32 userId = 1;
+  string accessToken = 2;
+  int64 accessTokenExpiresAt = 3;
+  string refreshToken = 4;
+  int64 refreshTokenExpiresAt = 5;
+  string message = 6;
+}
+
+message RefreshTokenRequest {
+  int32 userId = 1;
+  string refreshToken = 2;
+}
+
+message RefreshTokenResponse {
+  int32 userId = 1;
+  string accessToken = 2;
+  string refreshToken = 3;
+  int64 accessTokenExpiresAt = 4;
+  int64 refreshTokenExpiresAt = 5;
+}
