@@ -13,8 +13,8 @@ import (
 
 func main() {
 	cfg := config.LoadConfig()
-	// Initialize handlers
-	userHandler := handlers.NewUserHandler(cfg)
+	handler := handlers.NewHandler(cfg)
+	defer handler.KafkaWriter.Close()
 
 	router := mux.NewRouter()
 	// Unprotected routes
@@ -22,11 +22,13 @@ func main() {
 		writer.WriteHeader(http.StatusOK)
 		json.NewEncoder(writer).Encode(map[string]string{"status": "ok"})
 	}).Methods("GET")
-	router.HandleFunc("/login", userHandler.Login).Methods("POST")
-	router.HandleFunc("/register", userHandler.Register).Methods("POST")
+	router.HandleFunc("/login", handler.Login).Methods("POST")
+	router.HandleFunc("/register", handler.Register).Methods("POST")
 
 	// Routes
-	router.HandleFunc("/refresh", userHandler.RefreshToken).Methods("POST")
+	router.HandleFunc("/refresh", handler.RefreshToken).Methods("POST")
+	router.HandleFunc("/send-notification", handler.TestNotification).Methods("POST")
+	router.HandleFunc("/ws", handler.ProxyWebSocket)
 
 	// Apply middleware
 	router.Use(middleware.TokenAuthMiddleware)

@@ -5,11 +5,15 @@ import (
 )
 
 type Config struct {
-	UserServiceURL string
+	UserServiceURL         string
+	NotificationServiceURL string
+	KafkaServiceURL        string
 }
 
 func LoadConfig() *Config {
-	// In Kubernetes, the service URL for user-service can be reached with the DNS name
-	userServiceURL := os.Getenv("USER_SERVICE_URL")
-	return &Config{UserServiceURL: userServiceURL}
+	return &Config{
+		UserServiceURL:         os.Getenv("USER_SERVICE_URL"),
+		NotificationServiceURL: os.Getenv("NOTIFICATION_SERVICE_URL"),
+		KafkaServiceURL:        os.Getenv("KAFKA_BROKER"),
+	}
 }

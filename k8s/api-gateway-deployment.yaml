@@ -23,6 +23,10 @@ spec:
           env:
             - name: USER_SERVICE_URL
               value: "user-service.chat.svc.cluster.local:50051"
+            - name: NOTIFICATION_SERVICE_URL
+              value: "notification-service.chat.svc.cluster.local:8182"
+            - name: KAFKA_BROKER
+              value: "kafka.chat.svc.cluster.local:9092"
             - name: PORT
               value: "8180"
             - name: DB_HOST

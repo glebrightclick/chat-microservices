@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: chat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+        - name: notification-service
+          image: messenger-notification-service:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_BROKER
+              value: "kafka.chat.svc.cluster.local:9092"
+            - name: PORT
+              value: "8182"
+          ports:
+            - containerPort: 8182
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: chat
+spec:
+  selector:
+    app: notification-service
+  ports:
+    - protocol: TCP
+      port: 8182
+      targetPort: 8182

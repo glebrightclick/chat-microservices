@@ -4,7 +4,7 @@
 // 	protoc        v5.28.3
 // source: proto/protobuf/definitions.proto
 
-package proto
+package user_service
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
